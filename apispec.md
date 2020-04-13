@@ -2,106 +2,211 @@
 
 ## Structures
 
-### Struct Status
+### 1. Status
 ```
 {
     "success": bool,
-    "error": string,
+    "error_message": string,
 }
 ```
 
-### Struct User
+
+### 2. User
 ```
 {
-    "id": string,
+    "userid": string,
     "name": string,
-    "email:" string
+    "email": string,
+    "mobile": string,
     "photo": string,
+    "status": string,
 } 
 ```
 
 
+### 3. Message
+```
+{
+    "msgid": string,
+    "text": string,
+    "date": string
+    "sender_id": string,
+    "reciever_id": string,
+} 
+```
+
+
+
+
 # API
 
-## 1. Register
+## 1. Login
 
-Endpoint ```/register```
+Endpoint ```POST /login```
 
-### RegisterRequest
+### 1.1 LoginRequest
 
 ```
 {
-    "email": string
-}
-    
-```
-
-### RegisterResponse
-```
-{
-    "status": Status,
-    "auth_token": string
-}
-    
-```
-
-
-## 2. Login
-
-Endpoint ```/login```
-
-### LoginRequest
-```
-{
+	"2fa": bool,
+    "email": string,
+    "password": string,
+    "mobile": string,
+    "otp": string,
     "auth_token": string,
-    "password": string    
 }
+    
 ```
 
-### LoginResponse
+### 1.2 LoginResponse
 ```
 {
     "status": Status,
-    "access_token": string
+    "auth_token": string,
+    "access_token": string,
 }
+    
 ```
 
-## 3. User Profile
 
-Endpoint ```/profile```
+## 2. User Profile
 
-### ProfileRequest
+Endpoint ```POST /user```
+
+### 2.1 UserProfileRequest
 ```
 {
     "access_token": string,
-    "id": string
+    "userid": string,
+    "email": stirng,
+    "mobile": string
 }
 ```
 
-### ProfileResponse
+### 2.2 UserProfileResponse
 ```
 {
     "status": Status,
-    "profile": User,
+    "user": User,
 }
 ```
 
 
-## 4. Friend List
+## 3. Friend List
 
-Endpoint ```/friends```
+Endpoint ```POST /friends```
 
-### FriendListRequest
+### 3.1 FriendListRequest
+```
+{
+	"access_token": string,
+	"query" string, 
+	"limit": int,
+	"skip": int,
+}
+```
+
+### 3.2 FriendListResponse
+```
+{
+    "status": Status,
+    "users":  [
+	    {
+	    	"user": User,
+	    	"lastmsg": Message
+	    },
+	    {
+	    	"user": User,
+	    	"lastmsg": Message
+	    }	    
+    ]
+    "total": int,
+}
+```
+
+
+## 4. Messages
+
+### 4.1 Receive Messages
+
+Endpoint ```POST /recv```
+
+#### 4.1.1 ReceiveMessagesRequest
 ```
 {
     "access_token": string,
+    "userid": string,
 }
 ```
 
-### FriendListResponse
+#### 4.1.2 ReceiveMessagesResponse
 ```
 {
     "status": Status,
-    "friends": []User
+    "user": User,
+    "messages": []Message,
+}
+```
+
+
+### 4.2 Send New Message
+
+Endpoint ```POST /send```
+
+#### 4.2.1 SendMessageRequest
+```
+{
+	"access_token": string,
+	"message": Message
+}
+```
+
+#### 4.2.2 SendMessageResponse
+```
+{
+    "status": Status,
+}
+```
+
+## 5. Get User List
+
+Endpoint ```POST /users```
+
+### 5.1 UserListRequest
+```
+{
+	"access_token": string,
+	"query" string, 
+	"limit": int,
+	"skip": int,
+}
+```
+
+### 5.2 UserListResponse
+```
+{
+    "status": Status,
+    "users": []User,
+    "total": int,
+}
+```
+
+
+## 6. Add Friend
+
+Endpoint ```POST /add-friend```
+
+### 6.1 AddFriendRequest
+```
+{
+	"access_token": string,
+	"userid": string
+}
+```
+
+### 6.1 AddFriendResponse
+```
+{
+    "status": Status,
 }
 ```
