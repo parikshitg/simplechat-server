@@ -29,7 +29,7 @@
 {
     "msgid": string,
     "text": string,
-    "date": string
+    "timestamp": string
     "sender_id": string,
     "reciever_id": string,
 } 
@@ -136,6 +136,7 @@ Endpoint ```POST /recv```
 {
     "access_token": string,
     "userid": string,
+    "timestamp": string,
 }
 ```
 
